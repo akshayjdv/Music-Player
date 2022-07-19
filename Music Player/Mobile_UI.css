@@ -1,0 +1,200 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Jost&family=Tinos:wght@700&display=swap');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0%;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%; /* by default browser 100% ley font size which is nopthing but 16px, apde ene 10 px kryu*/
+  font-family: "Jost", sans-serif;
+}
+
+/* audio{
+    visibility: hidden;
+    
+} */
+
+.main_div {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f6f6f6;
+  /* display: flex; dont know how to make horizontal centre div using this */
+  display: grid;
+  place-items: center;
+}
+
+.music_container {
+  width: 35rem; /*rem etle 10px,total 350px,rem font size mateni unit lage chhe*/
+  height: 55rem;
+  background-color: #ffffff;
+  border-radius: 2rem;
+  box-shadow: 0 1.2rem 3rem 0.5rem rgba(0, 0, 0, 0.2);
+  padding: 3rem;
+  text-align: center;
+}
+
+/* music container div ma h2 tag ma title id chhe ena mate */
+.music_container #title {
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  word-spacing: 0.5rem;
+  color: #171717;
+  margin: 2rem 0 0.5rem 0;
+  font-weight: 500;
+  text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.3);
+}
+
+.music_container #artist {
+  color: #cccaca;
+  text-transform: capitalize;
+  letter-spacing: 0.1rem;
+  font-size: 2rem;
+  margin-bottom: 4rem;
+  font-weight: 400;
+}
+
+.image_container {
+  width: 25rem;
+  height: 25rem;
+  margin: auto; /*container ni andar center ma avai jase*/
+}
+
+/* image ne apde div ma box na center ma lavi havae e image sathe rmavnu chhe */
+img {
+  /* img object ne circle ma fit krvani che */
+  width: 100%; /*ena parent ni height width lese div ni*/
+  height: 100%;
+  /* circle mate */
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 1.2rem 3rem 0.5rem rgba(0, 0, 0, 0.4);
+}
+
+.music_controls .fas {
+  color: #111111;
+  font-size: 2rem;
+  cursor: pointer;
+  /* transparent images ma box shadow use na thai */
+  filter: drop-shadow(0 1.2rem 3rem 0.5rem rgba(0, 0, 0, 0.4));
+}
+
+.music_controls {
+  width: 20rem;
+  display: flex;
+  justify-content: space-between; /* fas button ne srkhi space ma lavva*/
+  /* to bring in centre */
+  margin: auto; /* horizontally center lavva*/
+  align-items: center; /* vertically center lavva with main play button*/
+  /* controls lakhyu hase to e space lese ny lakhyu hoi to margin top apvanu */
+  margin-top: 1rem;
+  /* margin-top: 4rem; */
+}
+
+/* play button ma circle mate */
+.music_controls .main_button {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background-color: #111;
+  color: #f6f6f6;
+  /* add display flex to center the items  */
+  font-size: 1.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.music_controls .fas:hover {
+  color: grey;
+}
+
+.music_controls .fa-play:hover {
+  background-color: #f6f6f6;
+  color: #111;
+  box-shadow: 0 1rem 2rem 0.2rem rgba(0, 0, 0, 0.4);
+}
+
+/* add rotation animation to center photo */
+.Anime {
+  animation: rotatePlayer 3s linear infinite;
+  animation-play-state: running;
+  /* roatteplayer nam na part pr 3s liner(ek dirn) ne infinite fotation joiye */
+}
+
+/* trensform lakhyu tu etle work notu krtu - check spelling also */
+@keyframes rotatePlayer {
+  0% {
+    transform:perspective(1000px)  rotate(0deg);
+  }
+  100% {
+    transform:perspective(1000px)  rotate(360deg);
+  }
+}
+
+/* to pause rotating image as it is looks beautiful */
+.Anime:hover{
+  animation-play-state: paused;
+}
+
+.Anime_pause{
+  animation-play-state: paused;
+}
+
+/* progress style */
+.progressbar_container{
+  width: 100%;
+  height: auto;
+  padding: 1rem 0;
+  margin-top: 1rem;
+}
+
+/* blank bg div */
+.progress_div{
+  width: 100%;
+  height: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07),0 2px 4px rgba(0, 0, 0, 0.07),0 4px 8px rgba(0, 0, 0, 0.07),0 8px 16px rgba(0, 0, 0, 0.07),0 16px 32px rgba(0, 0, 0, 0.07),0 32px 64px rgba(0, 0, 0, 0.07);
+
+  border-radius: 4rem;
+  position: relative;
+  margin-top: 00.5rem;
+  transition: all 1s linear;
+  -moz-transition: all 1s linear;
+  -o-transition: all 1s linear;
+  -webkit-transition: all 1s linear;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+
+}
+
+/* running bg div */
+.progress{
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* width: 20%; */
+  width: 0%;
+  height: 100%;/* leva deva nthi*/
+  background-color: #000;
+  
+  border-radius: 4rem;
+  /* margin-top: 00.5rem; */
+  transition: width 1s linear;
+  -moz-transition: width 1s linear;
+  -o-transition: width 1s linear;
+  -webkit-transition: width 1s linear;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.progress_duration_meter{
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+}

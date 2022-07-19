@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music-Ok</title>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="Mobile_UI.css">
+
+</head>
+<body>
+    <!-- ------------------------------- FOR MOBILE VERSION ------------------------------- -->
+    <!-- main container akha square box ne centre ma lavva mate -->
+    <!-- music container square box bnavva mate -->
+    <!-- h2 & h3 box ma upar avse -->
+    <!-- image h2&h3 pachhi rotate thava mate -->
+    <!-- audio tag music play krva mate -->
+    <div class="main_div">
+        <div class="music_container">
+            <h2 id="title">Song Name</h2>
+            <h3 id="artist">Artist Name</h3>
+            <div class="image_container" >
+
+                <!-- <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-rap-songs-1583527287.png?crop=0.5xw:1xh;center,top&resize=480:*" alt=""> -->
+
+                <!-- audio ma controls lakhsu to dekhase but apde dynamically joiye etle ny lakhvanu -->
+                <!-- <audio src="https://pwdown.com/12875/Mann%20Mera%20-%20Gajendra%20Verma%20320Kbps.mp3" controls>   </audio> -->
+
+                <audio src="https://pwdown.com/12875/Mann%20Mera%20-%20Gajendra%20Verma%20320Kbps.mp3" >   </audio>
+
+                <!-- <img src="music_therapy.avif"  alt=""> -->
+                <img src="https://static.independent.co.uk/2021/11/18/09/music%20therapy.jpg?quality=50&width=640&auto=webp" alt="">
+
+
+
+
+                <!-- progress bar controlers -->
+                <div class="progressbar_container" id="progress_container">
+                    <div class="progress_duration_meter">
+                        <div id="current_time">0:00</div>
+                        <div id="duration">3:18</div>
+                    </div>
+
+                    <div class="progress_div" id="progress_div">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                </div>
+
+
+
+
+                <!-- music controls j direct male chhe but not as per our need etle we require congtrols dynamically -->
+                <div class="music_controls">
+                    <i class="fas fa-backward" id="prev" title="Previous"></i>
+                    <i class="fas fa-play main_button" id="play" title="Play" ></i>
+                    <i class="fas fa-forward" id="forward" title="Next"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- javascript to dynamically rotate img and to play and pause -->
+    <script>
+        const music = document.querySelector("audio"); 
+        const img = document.querySelector("img"); 
+        const play = document.getElementById("play");
+        const artist = document.getElementById("artist");
+        const title = document.getElementById("title");
+        const next = document.getElementById("forward");
+        const prev = document.getElementById("prev");
+
+        // v2 dont get it
+        let progress = document.getElementById("progress");
+        let total_duration = document.getElementById("duration");
+        let current_time = document.getElementById("current_time");
+        const progress_div = document.getElementById("progress_div");
+
+        let isPlay = false;
+        // for play functionality
+        // play.addEventListener("click", () => {
+        const playMusic = () => {
+            isPlay = true;
+            music.play();
+            play.classList.replace("fa-play","fa-pause");
+            img.classList.add("Anime");
+            img.classList.remove("Anime_pause");
+            
+        };
+
+        // for pause functionality
+        // play.addEventListener("click", () => {
+        pauseMusic = () => {
+            isPlay = false;
+            music.pause();
+            play.classList.replace("fa-pause","fa-play");
+            // img.classList.remove("Anime");
+            img.classList.add("Anime_pause");
+        };
+
+
+        play.addEventListener("click",() => {
+            if(isPlay)
+            {
+                pauseMusic();
+            }
+            else
+            {
+                playMusic();
+            }
+
+            // isPlay ? pauseMusic() : playMusic();
+        });
+
+
+
+        // to update and display progress bar but i dont get it
+        music.addEventListener("timeupdate", (event) => {
+            const {currentTime,duration} = event.srcElement;
+            let progress_time = (currentTime/duration) * 100;
+            progress.style.width = `${progress_time}%`;
+
+            // music duration and current time
+            let minute_duration = Math.floor(duration/60);
+            let second_duration = Math.floor(duration % 60);
+
+            let tot_duration = `${minute_duration}:${second_duration}`
+
+            if(duration)
+            {
+                total_duration.textContent= `${tot_duration}`;
+            }
+
+            // cur currentTime
+            let minute_currentTime = Math.floor(currentTime/60);
+            let second_currentTime = Math.floor(currentTime % 60);
+
+            if(second_currentTime < 10)
+            {
+                second_currentTime = `0${second_currentTime}`;
+            }
+
+            let tot_currentTime = `${minute_currentTime}:${second_currentTime}`;
+
+            if(currentTime)
+            {
+                current_time.textContent= `${tot_currentTime}`;
+            }
+        });
+
+        progress_div.addEventListener("click",(event) => {
+            const{duration} = music;
+
+            let move_progress = (event.offsetX/event.srcElement.clientWidth) * duration;
+
+            music.currentTime = move_progress;
+        })
+
+    </script>
+
+</body>
+</html>

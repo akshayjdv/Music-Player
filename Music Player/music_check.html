@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music-Check</title>
+
+    <!-- awsom fonts for play,pause,forward,backward button -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+      integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- box icons for two menus -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Jost&family=Tinos:wght@700&display=swap");
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0%;
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: 62.5%; /* by default browser 100% ley font size which is nopthing but 16px, apde ene 10 px kryu*/
+        font-family: "Jost", sans-serif;
+      }
+
+      /* audio{
+    visibility: hidden;
+    
+} */
+
+      .main_div {
+        width: 100vw;
+        height: 100vh;
+        background-color: #f6f6f6;
+        /* display: flex; dont know how to make horizontal centre div using this */
+        display: grid;
+        place-items: center;
+      }
+
+      .music_container {
+        width: 35rem; /*rem etle 10px,total 350px,rem font size mateni unit lage chhe*/
+        height: 55rem;
+        background-color: #ffffff;
+        border-radius: 2rem;
+        box-shadow: 0 1.2rem 3rem 0.5rem rgba(0, 0, 0, 0.2);
+        padding: 3rem;
+        text-align: center;
+      }
+
+      /* music container div ma h2 tag ma title id chhe ena mate */
+      .music_container #title {
+        text-transform: uppercase;
+        letter-spacing: 0.2rem;
+        word-spacing: 0.5rem;
+        color: #171717;
+        margin: 2rem 0 0.5rem 0;
+        font-weight: 500;
+        text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.3);
+      }
+
+      .music_container #artist {
+        color: #cccaca;
+        text-transform: capitalize;
+        letter-spacing: 0.1rem;
+        font-size: 2rem;
+        margin-bottom: 4rem;
+        font-weight: 400;
+      }
+      /* ************************************************************************************************************ */
+      .music_container .bottom_bar .options {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-70px);
+        transition: 0.5s;
+      }
+
+      .music_container .bottom_bar .active2 {
+        transform: translateY(0px);
+      }
+
+      .music_container .bottom_bar .options button {
+        margin: 0 10px;
+        height: 40px;
+        width: 40px;
+        font-size: 18px;
+      }
+
+      .music_container .bottom_bar {
+        width: 100%;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .music_container .bottom_bar button {
+        z-index: 20;
+        height: 45px;
+        width: 45px;
+        border-radius: 50%;
+        font-size: 25px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.4);
+        box-shadow: 0.1px 8px 8px 2px rgba(0, 0, 0, 0.4);
+      }
+      /* ************************************************************************************************************** */
+
+      .image_container {
+        width: 25rem;
+        height: 25rem;
+        margin: auto; /*container ni andar center ma avai jase*/
+      }
+
+      /* image ne apde div ma box na center ma lavi havae e image sathe rmavnu chhe */
+      img {
+        /* img object ne circle ma fit krvani che */
+        width: 100%; /*ena parent ni height width lese div ni*/
+        height: 100%;
+        /* circle mate */
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 1.2rem 3rem 0.5rem rgba(0, 0, 0, 0.4);
+      }
+
+      .music_controls .fas {
+        color: #111111;
+        font-size: 2rem;
+        cursor: pointer;
+        /* transparent images ma box shadow use na thai */
+        filter: drop-shadow(0 1.2rem 3rem 0.5rem rgba(0, 0, 0, 0.4));
+      }
+
+      .music_controls {
+        width: 25rem;
+        display: flex;
+        justify-content: space-between; /* fas button ne srkhi space ma lavva*/
+        /* to bring in centre */
+        margin: auto; /* horizontally center lavva*/
+        align-items: center; /* vertically center lavva with main play button*/
+        /* controls lakhyu hase to e space lese ny lakhyu hoi to margin top apvanu */
+        margin-top: 1rem;
+        /* margin-top: 4rem; */
+      }
+
+      /* play button ma circle mate */
+      .music_controls .main_button {
+        width: 5rem;
+        height: 5rem;
+        border-radius: 50%;
+        background-color: #111;
+        color: #f6f6f6;
+        /* add display flex to center the items  */
+        font-size: 1.4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* list button ma circle mate */
+      .music_controls .side_button {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        background-color: #cccaca;
+        /* color: #f6f6f6; */
+        color: #111;
+        /* add display flex to center the items  */
+        font-size: 1.4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .music_controls .fas:hover {
+        color: grey;
+      }
+
+      .music_controls .fa-play:hover {
+        background-color: #f6f6f6;
+        color: #111;
+        box-shadow: 0 1rem 2rem 0.2rem rgba(0, 0, 0, 0.4);
+      }
+
+      .music_controls .fa-chevron-right:hover {
+        background-color: #f6f6f6;
+        color: #111;
+        box-shadow: 0 1rem 2rem 0.2rem rgba(0, 0, 0, 0.4);
+      }
+
+      .music_controls .fa-list:hover {
+        background-color: #f6f6f6;
+        color: #111;
+        box-shadow: 0 1rem 2rem 0.2rem rgba(0, 0, 0, 0.4);
+      }
+
+      /* add rotation animation to center photo */
+      .Anime {
+        animation: rotatePlayer 3s linear infinite;
+
+        /* roatteplayer nam na part pr 3s liner(ek dirn) ne infinite fotation joiye */
+      }
+
+      /* trensform lakhyu tu etle work notu krtu - check spelling also */
+      @keyframes rotatePlayer {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .Anime:hover {
+        animation-play-state: paused;
+      }
+
+      .Anime_pause {
+        animation-play-state: paused;
+      }
+
+      /* progress style */
+      .progressbar_container {
+        width: 100%;
+        height: auto;
+        padding: 1rem 0;
+        margin-top: 1rem;
+      }
+
+      /* blank bg div */
+      .progress_div {
+        width: 100%;
+        height: 0.5rem;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
+          0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
+          0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07);
+
+        border-radius: 4rem;
+        position: relative;
+        margin-top: 00.5rem;
+        transition: all 1s linear;
+        -moz-transition: all 1s linear;
+        -o-transition: all 1s linear;
+        -webkit-transition: all 1s linear;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      /* running bg div */
+      .progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+        /* width: 20%; */
+        width: 0%;
+        height: 100%; /* leva deva nthi*/
+        background-color: #000;
+
+        border-radius: 4rem;
+        /* margin-top: 00.5rem; */
+        transition: width 1s linear;
+        -moz-transition: width 1s linear;
+        -o-transition: width 1s linear;
+        -webkit-transition: width 1s linear;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      .progress_duration_meter {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ------------------------------- FOR MOBILE VERSION ------------------------------- -->
+    <!-- main container akha square box ne centre ma lavva mate -->
+    <!-- music container square box bnavva mate -->
+    <!-- h2 & h3 box ma upar avse -->
+    <!-- image h2&h3 pachhi rotate thava mate -->
+    <!-- audio tag music play krva mate -->
+    <div class="main_div">
+      <div class="music_container">
+        <h2 id="title">mann mera</h2>
+        <h3 id="artist">Gajendra Verma</h3>
+        <div class="image_container">
+          <!-- <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-rap-songs-1583527287.png?crop=0.5xw:1xh;center,top&resize=480:*" alt=""> -->
+
+          <!-- audio ma controls lakhsu to dekhase but apde dynamically joiye etle ny lakhvanu -->
+          <!-- <audio src="https://pwdown.com/12875/Mann%20Mera%20-%20Gajendra%20Verma%20320Kbps.mp3" controls>   </audio> -->
+
+          <audio
+            src="https://pwdown.com/12875/Mann%20Mera%20-%20Gajendra%20Verma%20320Kbps.mp3"
+          ></audio>
+
+          <!-- <img src="music_therapy.avif"  alt=""> -->
+          <img
+            src="https://static.independent.co.uk/2021/11/18/09/music%20therapy.jpg?quality=50&width=640&auto=webp"
+            alt=""
+          />
+
+          <!-- progress bar controlers -->
+          <div class="progressbar_container" id="progress_container">
+            <div class="progress_duration_meter">
+              <div id="current_time">0:00</div>
+              <div id="duration">0:00</div>
+            </div>
+
+            <div class="progress_div" id="progress_div">
+              <div class="progress" id="progress"></div>
+            </div>
+          </div>
+
+          <!-- music controls j direct male chhe but not as per our need etle we require congtrols dynamically -->
+          <div class="music_controls">
+            <!-- bottom bar button -->
+            <i class="fas fa-chevron-right side_button"></i>
+
+            <!-- play pause controls -->
+            <i class="fas fa-backward" id="prev" title="Previous"></i>
+            <i class="fas fa-play main_button" id="play" title="Play"></i>
+            <i class="fas fa-forward" id="forward" title="Next"></i>
+
+            <!-- bottom bar music menu -->
+            <i class="fas fa-list side_button"></i>
+            <!-- <i class="fa-solid fa-list-music"></i> -->
+            <!-- ----------------------------------------------------------------------------------------------------- -->
+            <!-- bottom bar button -->
+            <!-- <div class="bottom_bar">
+              <button onclick="sidebar()">
+                <i class="bx bx-chevron-right"></i>
+              </button>
+              <div class="options">
+                <button><i class="bx bxs-music"></i></button>
+                <button><i class="bx bxs-volume-full"></i></button>
+                <button><i class="bx bxs-edit-alt"></i></button>
+              </div>
+              <button onclick="open_p()">
+                <i class="bx bx-menu-alt-left"></i>
+              </button>
+            </div> -->
+            <!-- ----------------------------------------------------------------------------------------------------- -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- javascript to dynamically rotate img and to play and pause -->
+    <script>
+      const music = document.querySelector("audio");
+      const img = document.querySelector("img");
+      const play = document.getElementById("play");
+      const artist = document.getElementById("artist");
+      const title = document.getElementById("title");
+      const next = document.getElementById("forward");
+      const prev = document.getElementById("prev");
+
+      // v2 dont get it
+      let progress = document.getElementById("progress");
+      let total_duration = document.getElementById("duration");
+      let current_time = document.getElementById("current_time");
+      const progress_div = document.getElementById("progress_div");
+
+      let isPlay = false;
+      // for play functionality
+      // play.addEventListener("click", () => {
+      const playMusic = () => {
+        isPlay = true;
+        music.play();
+        play.classList.replace("fa-play", "fa-pause");
+        img.classList.add("Anime");
+        img.classList.remove("Anime_pause");
+      };
+
+      // for pause functionality
+      // play.addEventListener("click", () => {
+      pauseMusic = () => {
+        isPlay = false;
+        music.pause();
+        play.classList.replace("fa-pause", "fa-play");
+        img.classList.add("Anime_pause");
+      };
+
+      play.addEventListener("click", () => {
+        if (isPlay) {
+          pauseMusic();
+        } else {
+          playMusic();
+        }
+
+        // isPlay ? pauseMusic() : playMusic();
+      });
+
+      // to update and display progress bar but i dont get it
+      music.addEventListener("timeupdate", (event) => {
+        const { currentTime, duration } = event.srcElement;
+        let progress_time = (currentTime / duration) * 100;
+        progress.style.width = `${progress_time}%`;
+
+        // music duration and current time
+        let minute_duration = Math.floor(duration / 60);
+        let second_duration = Math.floor(duration % 60);
+
+        let tot_duration = `${minute_duration}:${second_duration}`;
+
+        if (duration) {
+          total_duration.textContent = `${tot_duration}`;
+        }
+
+        // cur currentTime
+        let minute_currentTime = Math.floor(currentTime / 60);
+        let second_currentTime = Math.floor(currentTime % 60);
+
+        if (second_currentTime < 10) {
+          second_currentTime = `0${second_currentTime}`;
+        }
+
+        let tot_currentTime = `${minute_currentTime}:${second_currentTime}`;
+
+        if (currentTime) {
+          current_time.textContent = `${tot_currentTime}`;
+        }
+      });
+
+      progress_div.addEventListener("click", (event) => {
+        const { duration } = music;
+
+        let move_progress =
+          (event.offsetX / event.srcElement.clientWidth) * duration;
+
+        music.currentTime = move_progress;
+      });
+    </script>
+  </body>
+</html>
